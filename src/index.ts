@@ -4,8 +4,8 @@ import cors from "cors";
 import session from "cookie-session";
 import { config } from "./config/app.config";
 import connectDatabase from "./config/database.config";
-import { errorHandler } from "./middlewares/errorHandler.middleware";
-import { asyncHandler } from "./middlewares/asyncHandler.middleware";
+import { errorHandler } from "./middlewares/error-handler.middleware";
+import { asyncHandler } from "./middlewares/async-handler.middleware";
 import { HTTP_STATUS } from "./config/http.config";
 
 import swaggerUi from "swagger-ui-express";

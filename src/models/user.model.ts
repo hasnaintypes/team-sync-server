@@ -2,7 +2,64 @@ import mongoose, { Document, Schema } from "mongoose";
 import { compareValue, hashValue } from "../utils/bcrypt";
 
 /**
- * Interface representing a User document in MongoDB.
+ * User model interface representing a user in the system.
+ * This model is used to manage user accounts and their associated data.
+ */
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - name
+ *         - email
+ *         - isActive
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: Full name of the user
+ *           example: "John Doe"
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: User's email address
+ *           example: "john.doe@example.com"
+ *         password:
+ *           type: string
+ *           description: Hashed password (never exposed in responses)
+ *           example: "$2b$10$abcdefg..."
+ *         profilePicture:
+ *           type: string
+ *           nullable: true
+ *           description: URL to the user's profile picture
+ *           example: "https://example.com/avatar.jpg"
+ *         isActive:
+ *           type: boolean
+ *           description: Whether the user is active
+ *           example: true
+ *         lastLogin:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: Last login timestamp
+ *           example: "2025-08-01T10:00:00Z"
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Account creation timestamp
+ *           example: "2025-08-02T12:34:56Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Last update timestamp
+ *           example: "2025-08-02T13:00:00Z"
+ *         currentWorkspace:
+ *           type: string
+ *           format: objectId
+ *           nullable: true
+ *           description: Reference to the user's current workspace
+ *           example: "64c8b2f2e1a2c8a1b2f2e1a3"
  */
 export interface UserDocument extends Document {
   name: string;

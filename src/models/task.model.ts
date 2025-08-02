@@ -7,6 +7,84 @@ import {
 } from "../enums/task.enum";
 import { generateTaskCode } from "../utils/uuid";
 
+/**
+ * Task model interface representing a task within a project.
+ * This model is used to manage tasks with various attributes such as status, priority, and assignment.
+ */
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Task:
+ *       type: object
+ *       required:
+ *         - taskCode
+ *         - title
+ *         - project
+ *         - workspace
+ *         - status
+ *         - priority
+ *         - createdBy
+ *       properties:
+ *         taskCode:
+ *           type: string
+ *           description: Unique code for the task
+ *           example: "TSK-001"
+ *         title:
+ *           type: string
+ *           description: Title of the task
+ *           example: "Design homepage layout"
+ *         description:
+ *           type: string
+ *           nullable: true
+ *           description: Detailed description of the task
+ *           example: "Create a modern homepage layout for the new website."
+ *         project:
+ *           type: string
+ *           format: objectId
+ *           description: Reference to the Project
+ *           example: "64c8b2f2e1a2c8a1b2f2e1a4"
+ *         workspace:
+ *           type: string
+ *           format: objectId
+ *           description: Reference to the Workspace
+ *           example: "64c8b2f2e1a2c8a1b2f2e1a3"
+ *         status:
+ *           type: string
+ *           description: Status of the task
+ *           example: "todo"
+ *         priority:
+ *           type: string
+ *           description: Priority of the task
+ *           example: "medium"
+ *         assignedTo:
+ *           type: string
+ *           format: objectId
+ *           nullable: true
+ *           description: User assigned to the task
+ *           example: "64c8b2f2e1a2c8a1b2f2e1a2"
+ *         createdBy:
+ *           type: string
+ *           format: objectId
+ *           description: User who created the task
+ *           example: "64c8b2f2e1a2c8a1b2f2e1a2"
+ *         dueDate:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: Due date for the task
+ *           example: "2025-08-10T12:00:00Z"
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: Task creation timestamp
+ *           example: "2025-08-02T12:34:56Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: Last update timestamp
+ *           example: "2025-08-02T13:00:00Z"
+ */
 export interface TaskDocument extends Document {
   taskCode: string;
   title: string;

@@ -7,6 +7,31 @@ import {
 } from "../enums/role.enum";
 import { RolePermissions } from "../utils/role-permission";
 
+/**
+ * Role model interface representing a user's role in the system.
+ * This model is used to manage roles and their associated permissions.
+ */
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Role:
+ *       type: object
+ *       required:
+ *         - name
+ *         - permissions
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: Name of the role
+ *           example: "admin"
+ *         permissions:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: List of permissions assigned to the role
+ *           example: ["read", "write", "delete"]
+ */
 export interface RoleDocument extends Document {
   name: RoleType;
   permissions: Array<PermissionType>;

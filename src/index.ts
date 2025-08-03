@@ -1,7 +1,6 @@
 import "dotenv/config";
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import session from "cookie-session";
 import { config } from "./config/app.config";
 import connectDatabase from "./config/database.config";
 import { errorHandler } from "./middlewares/error-handler.middleware";
@@ -10,9 +9,27 @@ import { HTTP_STATUS } from "./config/http.config";
 
 import swaggerUi from "swagger-ui-express";
 import swaggerSpec from "./config/swagger.config";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import session from "express-session";
+
+import "./config/passport.config";
+import passport from "passport";
+import authRoutes from "./routes/auth.route";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
+
+app.use(helmet());
+
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMs
+    standardHeaders: true,
+    legacyHeaders: false,
+  })
+);
 
 app.use(express.json());
 
@@ -20,14 +37,21 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
-    name: "session",
-    keys: [config.SESSION_SECRET],
-    maxAge: 24 * 60 * 60 * 1000,
-    secure: config.NODE_ENV === "production",
-    httpOnly: true,
-    sameSite: "lax",
+    secret: config.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: config.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "lax",
+    },
   })
 );
+
+app.use(passport.initialize());
+
+app.use(passport.session());
 
 app.use(
   cors({
@@ -38,12 +62,6 @@ app.use(
 
 // Swagger API docs
 app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-// Expose raw Swagger JSON for Postman import
-app.get("/api/docs-json", (req: Request, res: Response) => {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swaggerSpec);
-});
 
 app.get(
   `/`,
@@ -56,9 +74,14 @@ app.get(
   })
 );
 
+// Import routes
+app.use(`${BASE_PATH}/auth`, authRoutes);
+
 app.use(errorHandler);
 
 app.listen(config.PORT, async () => {
-  console.log(`Server listening on port ${config.PORT} in ${config.NODE_ENV}`);
+  console.log(
+    `[Server] Listening on port ${config.PORT} in ${config.NODE_ENV}`
+  );
   await connectDatabase();
 });

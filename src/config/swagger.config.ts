@@ -15,6 +15,16 @@ const options: Options = {
         description: "Base API path",
       },
     ],
+    components: {
+      securitySchemes: {
+        sessionAuth: {
+          type: "apiKey",
+          in: "cookie",
+          name: "connect.sid",
+          description: "Session-based authentication using cookies",
+        },
+      },
+    },
   },
   apis: ["src/controllers/**/*.ts", "src/models/**/*.ts"], // Adjust as needed
 };

@@ -21,6 +21,7 @@ import requireAuth from "./middlewares/auth.middleware.ts ";
 import workspaceRoutes from "./routes/workspace.route";
 import memberRoutes from "./routes/member.route";
 import projectRoutes from "./routes/project.route";
+import taskRoutes from "./routes/task.route";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
@@ -85,6 +86,7 @@ app.use(`${BASE_PATH}/user`, requireAuth, userRoutes);
 app.use(`${BASE_PATH}/workspace`, requireAuth, workspaceRoutes);
 app.use(`${BASE_PATH}/member`, requireAuth, memberRoutes);
 app.use(`${BASE_PATH}/project`, requireAuth, projectRoutes);
+app.use(`${BASE_PATH}/task`, requireAuth, taskRoutes);
 
 app.use(errorHandler);
 

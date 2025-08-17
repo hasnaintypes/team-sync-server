@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "seed": "ts-node src/seeders/role.seeder.ts",
+    "seed": "ts-node src/seeders/master.seeder.ts",
+    "seed:roles": "ts-node src/seeders/role.seeder.ts",
     "dev": "ts-node-dev --files src/index.ts",
     "build": "tsc && cp /package.json ./dist",
     "start": "node dist/index.js"
